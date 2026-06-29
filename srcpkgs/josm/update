@@ -1,2 +1,0 @@
-site="https://josm.openstreetmap.de/"
-pattern="(?<=\(Latest tested version, currently )\K[\d]+(?=\))"

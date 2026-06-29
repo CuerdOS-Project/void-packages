@@ -1,2 +1,0 @@
-pattern='[\d.]+.gfm.[\d.]*\d'
-ignore='0.29.gfm.8'

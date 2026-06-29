@@ -1,2 +1,0 @@
-site="https://github.com/Mahlet-Inc/hobbits/info/refs?service=git-upload-pack"
-pattern='refs/tags/[-_v]?\K[\d.]+($|(?=^))'

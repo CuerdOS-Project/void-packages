@@ -1,2 +1,0 @@
-site=https://ziglang.org/download/index.json
-pattern='"\K\d+\.\d+\.\d+(?=")'

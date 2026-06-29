@@ -1,2 +1,0 @@
-pkgname=libkdcraw
-ignore="2[6-9].*"

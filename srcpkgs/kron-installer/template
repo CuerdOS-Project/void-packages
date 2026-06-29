@@ -1,0 +1,47 @@
+# Template file for 'kron-installer'
+pkgname=kron-installer
+version=0.8.4
+revision=1
+depends="python3-pyside6 python3-pyside6-gui python3-pyside6-widgets polkit gptfdisk parted pciutils btrfs-progs grub"
+short_desc="Graphical installer for CuerdOS GNU/Linux (PySide6)"
+maintainer="PabloG-Dev <pablo@example.com>"
+license="GPL-3.0-only"
+homepage="https://github.com/CuerdOS-Project/Kron-Installer"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=da1abe88aa267633a7435082746dc51be71c407679197d25a7413f181401ac5f
+wrksrc="Kron-Installer-v${version}"
+
+do_install() {
+    # --- 1. Crear TODOS los directorios destino ---
+    vmkdir usr/share/kron-installer/ui/assets
+    vmkdir usr/share/kron-installer/utils
+    vmkdir usr/share/kron-installer/install
+    vmkdir usr/share/kron-installer/i18n
+    vmkdir usr/share/kron-installer/images
+    vmkdir usr/share/applications
+    vmkdir usr/share/pixmaps
+    vmkdir usr/bin
+
+    # --- 2. Copiar código usando vcopy ---
+    # vcopy asume que el origen está dentro de ${wrksrc} y el destino en ${DESTDIR}
+    # Esto evita los errores de rutas absolutas y de carpetas vacías (*)
+    vcopy "ui/*" usr/share/kron-installer/ui/
+    vcopy "utils/*" usr/share/kron-installer/utils/
+    vcopy "install/*" usr/share/kron-installer/install/
+    vcopy "i18n/*" usr/share/kron-installer/i18n/
+    vcopy "images/*" usr/share/kron-installer/images/
+    
+    # Para un solo archivo, vinstall es la forma correcta
+    vinstall main.py 644 usr/share/kron-installer
+
+    # --- 3. Permisos de ejecución para scripts bash del backend ---
+    chmod 755 "${DESTDIR}/usr/share/kron-installer/install/auto_partition.sh"
+    chmod 755 "${DESTDIR}/usr/share/kron-installer/install/backend_install.sh"
+
+    # --- 4. Archivos de integración con el sistema ---
+    vinstall resources/kron.desktop     644 usr/share/applications
+    vinstall resources/kron-entry.desktop 644 etc/xdg/autostart
+    vinstall resources/install-cuerdos.png    644 usr/share/pixmaps
+    vinstall resources/kron-installer     755 usr/bin
+    vinstall resources/kron-entry.sh     755 usr/bin
+}

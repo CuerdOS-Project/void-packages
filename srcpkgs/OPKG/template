@@ -1,0 +1,16 @@
+# Template file for 'OPKG'
+pkgname=OPKG
+version=0.9.3
+revision=1
+depends="xbps"
+short_desc="Apt-like wrapper for xbps package manager"
+maintainer="Pablo G. Alba <pabloguti51@proton.me>"
+license="GPL-3.0-only"
+homepage="https://github.com/PabloG-Dev/OPKG"
+distfiles="https://github.com/PabloG-Dev/OPKG/archive/refs/tags/${version}.tar.gz"
+checksum=70065ffa52b20d79ab5985637267959ec82ceb2466d6dbf5c59612f1936b5134
+wrksrc="${pkgname}-${version}"
+
+do_install() {
+    vinstall opkg.sh 755 usr/bin opkg
+}

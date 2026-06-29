@@ -1,1 +1,0 @@
-pattern="refs/tags/v\K[0-9.]+"

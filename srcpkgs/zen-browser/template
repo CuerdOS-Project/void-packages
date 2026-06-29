@@ -1,0 +1,43 @@
+# Template file for 'zen-browser'
+pkgname=zen-browser
+version=1.21.4b
+revision=1
+archs="x86_64 aarch64"
+short_desc="Anti-bloat, privacy-oriented web browser based on Firefox"
+maintainer="Pablo G. Alba <pabloguti51@proton.me>"
+license="MPL-2.0, GPL-2.0-or-later, LGPL-2.1-or-later"
+homepage="https://zen-browser.app"
+distfiles="https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-x86_64.tar.xz
+         https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-aarch64.tar.xz"
+checksum="7bc0a2d0ff861530d68b8c399f66297ec05c5a6ee740757f8429ba161091ef89
+ 025ab27985bd7ef5494d729ea43ace45f737acaf1541d341402977dd318c21ad"
+noextract="zen.linux-x86_64.tar.xz zen.linux-aarch64.tar.xz"
+nocross=yes
+nopie=yes
+
+depends="alsa-lib gtk+3 libXScrnSaver nss libgomp desktop-file-utils hicolor-icon-theme"
+
+do_extract() {
+    mkdir -p ${wrksrc}/zen
+    case "$XBPS_TARGET_MACHINE" in
+        x86_64)  local _tar="zen.linux-x86_64.tar.xz" ;;
+        aarch64) local _tar="zen.linux-aarch64.tar.xz" ;;
+    esac
+
+    bsdtar -xf "${XBPS_SRCDISTDIR}/${pkgname}-${version}/${_tar}" -C ${wrksrc}/zen
+
+    chmod +x ${wrksrc}/zen/zen
+}
+
+do_install() {
+    vmkdir opt/${pkgname}
+    cp -a ${wrksrc}/zen/. ${DESTDIR}/opt/${pkgname}/
+
+    vinstall ${FILESDIR}/zen-bin.sh 755 usr/bin zen
+
+    vinstall ${FILESDIR}/zen-browser.desktop 644 usr/share/applications
+
+    if [ -f "${wrksrc}/zen/browser/chrome/icons/default/default128.png" ]; then
+        vinstall "${wrksrc}/zen/browser/chrome/icons/default/default128.png" 644 usr/share/pixmaps zen-browser.png
+    fi
+}

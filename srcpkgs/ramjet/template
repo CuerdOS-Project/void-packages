@@ -1,0 +1,24 @@
+# Template file for 'ramjet'
+pkgname=ramjet
+version=1.0
+revision=1
+wrksrc="RamJet-v${version}"
+build_style=gnu-makefile
+short_desc="An Ananicy-like daemon written in C"
+maintainer="Pablo G. Alba <pabloguti51@proton.me>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/CuerdOS-Project/RamJet"
+distfiles="${homepage}/archive/refs/tags/v${version}.tar.gz"
+checksum=d85905bbbe1749db1e0e9c44837f28802cb65c1bd0b6abe0afe7384abf06cb12
+
+# Crear usuario svlog para el logger de runit y su directorio de logs
+system_accounts="svlog"
+svlog_homedir="/var/log/ramjet"
+make_dirs="/var/log/ramjet 0755 svlog svlog"
+
+# Instalar el servicio runit
+post_install() {
+    vmkdir etc/sv/ramjet/log
+    vinstall ${wrksrc}/runit/run 755 etc/sv/ramjet
+    vinstall ${wrksrc}/runit/log/run 755 etc/sv/ramjet/log
+}

@@ -16,7 +16,7 @@
 !/README.md
 !/common
 !/etc
-!/srcpkgs
+/srcpkgs
 !/xbps-src
 etc/conf
 etc/conf.*

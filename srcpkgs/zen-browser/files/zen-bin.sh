@@ -1,2 +1,0 @@
-#!/bin/sh
-exec /opt/zen-browser/zen/zen "$@"

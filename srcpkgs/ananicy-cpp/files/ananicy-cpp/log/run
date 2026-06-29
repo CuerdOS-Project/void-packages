@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# Ejecutar el logger con timestamps (-tt)
-exec chpst -u svlog svlogd -tt /var/log/ananicy-cpp
